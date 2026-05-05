@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>GestureOS — Үсэрхэг Үхэр</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./style.css"/>
+</head>
+<body>
+
+<!-- ─── HEADER ─────────────────────────────────────────── -->
+<header class="topbar">
+  <a class="brand" href="#" onclick="navTo('home');return false;">
+    <img src="./images/logo.png" class="brand-mascot" alt="хэг Үхэр"/>
+    <div class="brand-text">
+      <span class="brand-name">GestureOS</span>
+      <span class="brand-sub">ҮСЭРХЭГ ҮХЭР</span>
+    </div>
+  </a>
+
+  <nav class="nav" id="mainNav">
+    <button class="nav-btn active" data-page="home">🏠 Нүүр</button>
+    <button class="nav-btn" data-page="detect">📡 Ухаалаг Гэр</button>
+    <button class="nav-btn" data-page="game">🎮 Тоглоомууд</button>
+  </nav>
+
+  <div class="statusbar">
+    <span class="pulse-dot" id="sysPulse"></span>
+    <span class="mono" id="sysStatus">STANDBY</span>
+  </div>
+</header>
+
+<main class="container">
+
+<!-- ═══════════════════════════════════════════
+     HOME PAGE
+════════════════════════════════════════════ -->
+<section id="home-page" class="page active">
+
+  <div class="hero">
+    <div class="hero-text">
+      <div class="hero-eyebrow"> MEDIAPIPE · GESTURE CONTROL</div>
+      <h1 class="hero-title">Үсэрхэг<br><em>үхэр</em><br>HUB</h1>
+      <p class="hero-sub">
+        Үсэрхэг Үхэртэйгээ хамт камераар гарын дохиог таньж,<br>
+        гэрийн систем удирдаж, тоглоомоо тоглоорой!
+      </p>
+      <div class="hero-btns">
+        <button class="btn-hero" onclick="navTo('detect')">📡 Ухаалаг гэр →</button>
+        <button class="btn-hero-ghost" onclick="navTo('game')">🎮 Тоглоомууд →</button>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-speech-bubble">
+        Hey bro ! 🤙
+      </div>
+      <img src="./images/wave.gif"
+           class="hero-mascot"
+           alt="Үсэрхэг үхэр даллаж байна"
+           id="heroMascot"/>
+    </div>
+  </div>
+
+  <!-- Feature cards -->
+  <div class="feat-grid">
+    <div class="feat-card" onclick="navTo('detect')">
+      <div class="feat-ico">🏠</div>
+      <h3>Ухаалаг Гэр</h3>
+      <p>Гэрэл, дулаан, хөгжим, хаалга — гарын 6 дохиогоор бүхнийг удирдана.</p>
+      <span class="feat-link">Нэвтрэх →</span>
+    </div>
+    <div class="feat-card" onclick="navTo('game')">
+      <div class="feat-ico">🪣</div>
+      <h3>Argal Tuugch</h3>
+      <p>Үсэрхэг үхэр арагндаа унаж буй аргалыг тосно! Гараа хөдөлгөж удирдана.</p>
+      <span class="feat-link">Тоглох →</span>
+    </div>
+    <div class="feat-card">
+      <div class="feat-ico">✋</div>
+      <h3>21 Landmark</h3>
+      <p>MediaPipe HandLandmarker-аар гарын 21 оноог бодит цагт илрүүлнэ.</p>
+      <span class="feat-link" style="color:var(--muted)">Core Tech</span>
+    </div>
+  </div>
+
+  <!-- Gesture guide -->
+  <h2 class="sec-title">Дохионы Гарын Авлага</h2>
+  <div class="gest-grid">
+    <div class="gest-card"><div class="gest-emoji">☝️</div><b>Нэг хуруу</b><span>Гэрэл + brightness</span></div>
+    <div class="gest-card"><div class="gest-emoji">✌️</div><b>Хоёр хуруу</b><span>Дулааны систем</span></div>
+    <div class="gest-card"><div class="gest-emoji">🤟</div><b>Гурван хуруу</b><span>Хөгжим + volume</span></div>
+    <div class="gest-card"><div class="gest-emoji">🖐️</div><b>Нээлттэй гар</b><span>Бүгдийг унтраах</span></div>
+    <div class="gest-card"><div class="gest-emoji">🤌</div><b>Pinch</b><span>Хаалга нээх/хаах</span></div>
+    <div class="gest-card"><div class="gest-emoji">✊</div><b>Нударга</b><span>Аюул / Pause</span></div>
+  </div>
+
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     DETECT (SMART HOME)
+════════════════════════════════════════════ -->
+<section id="detect-page" class="page">
+  <div class="detect-layout">
+
+    <!-- Camera col -->
+    <div>
+      <div class="card">
+        <div class="card-hd">
+          <h2>📡 Камер — Дохио Таних</h2>
+          <div class="ctrl-row">
+            <button id="startCameraBtn" class="btn-primary">▶ Камер асаах</button>
+            <button id="stopCameraBtn"  class="btn-ghost">■ Зогсоох</button>
+          </div>
+        </div>
+        <div class="stage-wrap">
+          <video id="camera" autoplay playsinline muted></video>
+          <canvas id="overlay"></canvas>
+          <div class="cam-hud">
+            <div class="hc tl"></div><div class="hc tr"></div>
+            <div class="hc bl"></div><div class="hc br"></div>
+            <div class="scan"></div>
+          </div>
+        </div>
+        <div class="stat-pills">
+          <div class="pill"><span class="pl">Camera</span><span id="cameraStatus" class="pv">Унтарсан</span></div>
+          <div class="pill"><span class="pl">Гар</span><span id="handStatus" class="pv">Илрээгүй</span></div>
+          <div class="pill"><span class="pl">Дохио</span><span id="gestureStatus" class="pv hi">—</span></div>
+          <div class="pill"><span class="pl">X</span><span id="xStatus" class="pv mono">—</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Smart home col -->
+    <div>
+      <h2 class="col-title">🏠 Ухаалаг Гэрийн Хяналт</h2>
+      <div class="gesture-tip">
+        💡 <b>☝️ нэг хуруу</b> → гэрэл &nbsp;|&nbsp; <b>✌️ хоёр хуруу</b> → дулаан &nbsp;|&nbsp;
+        <b>🤟 гурван хуруу</b> → хөгжим &nbsp;|&nbsp; <b>🖐️</b> → бүгдийг унтрааx
+      </div>
+
+      <!-- Light -->
+      <div class="room-card">
+        <div class="rc-hd">
+          <span class="rc-ico">💡</span>
+          <div class="rc-info"><div class="rc-name">Гэрэл</div><div class="rc-hint">☝️ → асаах · X байрлал → brightness</div></div>
+          <div class="toggle" id="tog-light" onclick="togDevice('light',this)"><div class="tknob"></div></div>
+        </div>
+        <div class="rc-body">
+          <div class="bar-row"><span>Гэрэлтэлт</span><div class="pbar"><div class="pfill" id="brightBar" style="width:70%"></div></div><span class="mono" id="brightVal">70%</span></div>
+          <div class="bulb-row">
+            <div class="bulb on" id="b0" onclick="togBulb(0)">Угалзан</div>
+            <div class="bulb"    id="b1" onclick="togBulb(1)">Унтлага</div>
+            <div class="bulb"    id="b2" onclick="togBulb(2)">Гал тогоо</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Temp -->
+      <div class="room-card">
+        <div class="rc-hd">
+          <span class="rc-ico">🌡️</span>
+          <div class="rc-info"><div class="rc-name">Дулаан</div><div class="rc-hint">✌️ → асаах/унтраах</div></div>
+          <div class="toggle on" id="tog-temp" onclick="togDevice('temp',this)"><div class="tknob"></div></div>
+        </div>
+        <div class="rc-body">
+          <div class="temp-row">
+            <span class="temp-big" id="tempVal">22°C</span>
+            <div class="temp-btns"><button onclick="adjTemp(-1)">−</button><button onclick="adjTemp(1)">+</button></div>
+          </div>
+          <div class="mode-row">
+            <button class="mdbtn on" onclick="setMode(this)">🌬️ Сэрүүн</button>
+            <button class="mdbtn"    onclick="setMode(this)">🌡️ Дулаан</button>
+            <button class="mdbtn"    onclick="setMode(this)">⚡ Авто</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Music -->
+      <div class="room-card">
+        <div class="rc-hd">
+          <span class="rc-ico">🎵</span>
+          <div class="rc-info"><div class="rc-name">Хөгжим</div><div class="rc-hint">🤟 → асаах · X → volume</div></div>
+          <div class="toggle" id="tog-music" onclick="togDevice('music',this)"><div class="tknob"></div></div>
+        </div>
+        <div class="rc-body">
+          <div class="player-row">
+            <div class="track-art">♪</div>
+            <div class="track-info">
+              <div class="track-name" id="trackName">Mongolian Folk Mix</div>
+              <div class="player-btns">
+                <button onclick="prevTrack()">⏮</button>
+                <button id="playBtn" onclick="togPlay()">▶</button>
+                <button onclick="nextTrack()">⏭</button>
+              </div>
+            </div>
+          </div>
+          <div class="vol-row">🔊<div class="pbar" style="flex:1"><div class="pfill" id="volBar" style="width:60%"></div></div><span class="mono" id="volVal">60%</span></div>
+        </div>
+      </div>
+
+      <!-- Door -->
+      <div class="room-card">
+        <div class="rc-hd">
+          <span class="rc-ico">🔒</span>
+          <div class="rc-info"><div class="rc-name">Хаалга</div><div class="rc-hint">🤌 pinch → нээх/хаах</div></div>
+        </div>
+        <div class="rc-body">
+          <div class="door-badge" id="doorBadge">🔒 ХААЛТТАЙ</div>
+          <button class="door-btn" onclick="togDoor()"><span id="dIco">🔓</span><span id="dTxt"> Нээх</span></button>
+          <div class="sec-info">
+            <div class="si-row"><span>Хамгаалалт</span><span class="sec-on">Идэвхтэй ✓</span></div>
+            <div class="si-row"><span>Сүүлийн нэвтрэлт</span><span class="mono" id="lastEntry">14:32</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     GAMES PAGE
+════════════════════════════════════════════ -->
+<section id="game-page" class="page">
+
+  <div class="games-hd">
+    <h2>🎮 Тоглоомууд</h2>
+    <p>Үсэрхэг Үхэртэйгээ хамт гарын дохиогоор тоглоомоо тогло</p>
+  </div>
+
+  <div class="game-tabs">
+    <button class="gtab active" onclick="selGame('catch',this)">🪣 Argal Catch</button>
+    <button class="gtab"        onclick="selGame('dodge',this)">⚡ Dodge</button>
+    <button class="gtab"        onclick="selGame('paint',this)">🎨 Paint</button>
+    <button class="gtab"        onclick="selGame('memory',this)">🧠 Memory</button>
+  </div>
+
+  <div class="game-arena">
+    <!-- Main canvas area -->
+    <div class="game-main">
+      <div class="game-topbar">
+        <div>
+          <div id="gName" class="game-title-txt">🪣 Argal Catch</div>
+          <div id="gDesc" class="game-desc">Үсэрхэг Үхэр сагсаараа унаж буй аргалыг тосно — 💣 бөмбөгнөөс зайл!</div>
+        </div>
+        <div class="ctrl-row">
+          <button id="startGameBtn"   class="btn-primary">▶ Start</button>
+          <button id="pauseGameBtn"   class="btn-pause">⏸</button>
+          <button id="stopGameBtn"    class="btn-ghost">■ Stop</button>
+          <button id="restartGameBtn" class="btn-ghost">↺</button>
+        </div>
+      </div>
+
+      <div class="game-layout">
+        <div class="cam-mini">
+          <video  id="gameCamera"  autoplay playsinline muted></video>
+          <canvas id="gameOverlay"></canvas>
+          <div class="cam-hud sm">
+            <div class="hc tl"></div><div class="hc tr"></div>
+            <div class="hc bl"></div><div class="hc br"></div>
+          </div>
+          <div class="cam-label">☝️ хөдлөх · ✊ pause</div>
+        </div>
+        <canvas id="gameCanvas" width="820" height="490"></canvas>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="game-side">
+      <div class="score-panel">
+        <div class="sc-item"><span class="sc-lbl">Оноо</span><span id="scoreValue"  class="sc-val">0</span></div>
+        <div class="sc-item"><span class="sc-lbl">❤️ Амь</span><span id="livesValue" class="sc-val red">3</span></div>
+        <div class="sc-item"><span class="sc-lbl">Түвшин</span><span id="levelValue" class="sc-val blue">1</span></div>
+      </div>
+
+      <div class="state-row">
+        <span class="state-lbl">Төлөв</span>
+        <span id="gameState" class="state-val">Idle</span>
+      </div>
+
+      <div class="hints-panel">
+        <div class="hints-title">Дохионы удирдлага</div>
+        <div class="hint-row"><span>☝️</span><span id="hint1">Үхрийг хөдөлгөх</span></div>
+        <div class="hint-row"><span>✊</span><span>Pause / Resume</span></div>
+        <div class="hint-row"><span>🤌</span><span>Game Over → Restart</span></div>
+      </div>
+
+      <div class="hs-panel">
+        <div class="hs-title">🏆 Дээд оноо</div>
+        <div class="hs-row"><span>🪣 Catch</span><span  id="hsCatch"  class="mono">0</span></div>
+        <div class="hs-row"><span>⚡ Dodge</span><span  id="hsDodge"  class="mono">0</span></div>
+        <div class="hs-row"><span>🎨 Paint</span><span  id="hsPaint"  class="mono">0</span></div>
+        <div class="hs-row"><span>🧠 Memory</span><span id="hsMemory" class="mono">0</span></div>
+      </div>
+
+      <div class="howto-panel">
+        <div class="howto-title">Хэрхэн тоглох</div>
+        <ul id="howtoList">
+          <li>Долоовор хурууг зүүн/баруун хөдөлгө</li>
+          <li>Унаж буй аргалыг сагсандаа барь → +1 оноо</li>
+          <li>Том/онцгой аргал → +5 оноо</li>
+          <li>💣 бөмбөг амь хасна — сагсаар тос!</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script type="module" src="./app.js"></script>
+<script>
+// ── Navigation ───────────────────────────────────────────────
+function navTo(p) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.page === p));
+  document.querySelectorAll('.page').forEach(pg => pg.classList.toggle('active', pg.id === p+'-page'));
+}
+document.querySelectorAll('.nav-btn[data-page]').forEach(b => b.addEventListener('click', () => navTo(b.dataset.page)));
+
+// ── Smart Home UI ─────────────────────────────────────────────
+function togDevice(t, el) { el.classList.toggle('on'); }
+let bulbs = [true, false, false];
+function togBulb(i) { bulbs[i]=!bulbs[i]; document.getElementById('b'+i).classList.toggle('on',bulbs[i]); }
+let tc = 22;
+function adjTemp(d) { tc=Math.max(16,Math.min(30,tc+d)); document.getElementById('tempVal').textContent=tc+'°C'; }
+function setMode(el) { document.querySelectorAll('.mdbtn').forEach(b=>b.classList.remove('on')); el.classList.add('on'); }
+const tracks=['Mongolian Folk Mix','Хот Дунд Шөнө','Стэпийн Сэвшээ','Digital Ger','Nomad Beats'];
+let ti=0, playing=false;
+function togPlay() { playing=!playing; document.getElementById('playBtn').textContent=playing?'⏸':'▶'; }
+function nextTrack() { ti=(ti+1)%tracks.length; document.getElementById('trackName').textContent=tracks[ti]; }
+function prevTrack() { ti=(ti-1+tracks.length)%tracks.length; document.getElementById('trackName').textContent=tracks[ti]; }
+let dOpen=false;
+function togDoor() {
+  dOpen=!dOpen;
+  const b=document.getElementById('doorBadge');
+  b.textContent=dOpen?'🔓 НЭЭЛТТЭЙ':'🔒 ХААЛТТАЙ';
+  b.className='door-badge'+(dOpen?' open':'');
+  document.getElementById('dIco').textContent=dOpen?'🔒':'🔓';
+  document.getElementById('dTxt').textContent=dOpen?' Хаах':' Нээх';
+  if(dOpen){ const n=new Date(); document.getElementById('lastEntry').textContent=n.getHours().toString().padStart(2,'0')+':'+n.getMinutes().toString().padStart(2,'0'); }
+}
+window.togDoor=togDoor;
+
+// ── Game tab switching ────────────────────────────────────────
+const gDesc={
+  catch:'Үсэрхэг Үхэр сагсаараа унаж буй аргалыг тосно — 💣 бөмбөгнөөс зайл!',
+  dodge:'Буудаж буй астероидоос зайл, 🛡 shield цуглуул',
+  paint:'2D гарын замаар зур, орбуудыг барь',
+  memory:'Дарааллыг санаж, бүсийн хөдлөлөөр давт'
+};
+const gHints={
+  catch:['Долоовор хурууг зүүн/баруун хөдөлгө','Унаж буй аргалыг сагсандаа барь → +1 оноо','Том/онцгой аргал → +5 оноо','💣 бөмбөг амь хасна — сагсаар тос!'],
+  dodge:['Гарын X байрлалаар хөдөл','🛡 shield цуглуулж хамгаалла нэм','Цаг хэмжигч дуустал амьд үлд','Хурдлах тусам level нэмэгдэнэ'],
+  paint:['Хурууны X,Y байрлалаар зур','Гарч ирэх орбуудыг барь → оноо нэмэгдэнэ','Restart = canvas цэвэрлэнэ','Зурсан урт оноо болно'],
+  memory:['Гарч ирэх бүсийн дарааллыг харна','Гараа тухайн бүсрүү хөдөлгөж давт','Зөв хийх бүрт дараалал урт болно','Алдвал амь хасагдана']
+};
+const gNames={catch:'🪣 Argal Catch',dodge:'⚡ Dodge',paint:'🎨 Paint',memory:'🧠 Memory'};
+function selGame(n,btn){
+  document.querySelectorAll('.gtab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('gName').textContent=gNames[n];
+  document.getElementById('gDesc').textContent=gDesc[n];
+  document.getElementById('howtoList').innerHTML=gHints[n].map(t=>`<li>${t}</li>`).join('');
+  if(window.gameEngine) window.gameEngine.switchGame(n);
+}
+</script>
+</body>
+</html>
