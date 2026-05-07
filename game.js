@@ -21,7 +21,7 @@ for (let i = 1; i <= 7; i += 1) {
   preloadImg(`fallArgal${i}`, `./images/argal_${i}.png`);
 }
 // expose for GameOver screen used by engine
-window._duussanImg = IMG.duussan;
+window._duussanImg = IMG.lose;
 
 /* ════════════════════════════════════════════════════════════
    GestureGameEngine — orchestrates all mini-games
