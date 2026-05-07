@@ -16,7 +16,7 @@ function preloadImg(key, src) {
 preloadImg('argalLeft',  './images/aragtai.png');
 preloadImg('argalRight', './images/aragtai_rev.png');
 preloadImg('duussan',    './images/duussan.png');
-preloadImg('waving',     './images/wavingbull.png');
+preloadImg('waving',     './images/duussan.png');
 for (let i = 1; i <= 7; i += 1) {
   preloadImg(`fallArgal${i}`, `./images/argal_${i}.png`);
 }
