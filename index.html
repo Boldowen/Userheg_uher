@@ -234,10 +234,10 @@
   </div>
 
   <div class="game-tabs">
-    <button class="gtab active" onclick="selGame('catch',this)">🪣 Argal Catch</button>
-    <button class="gtab"        onclick="selGame('dodge',this)">⚡ Dodge</button>
-    <button class="gtab"        onclick="selGame('paint',this)">🎨 Paint</button>
-    <button class="gtab"        onclick="selGame('memory',this)">🧠 Memory</button>
+    <button class="gtab active" onclick="selGame('catch',this)">Argal Catch</button>
+    <button class="gtab"        onclick="selGame('dodge',this)">Dodge</button>
+    <button class="gtab"        onclick="selGame('paint',this)">Paint</button>
+    <button class="gtab"        onclick="selGame('memory',this)">Memory</button>
   </div>
 
   <div class="game-arena">
@@ -245,8 +245,8 @@
     <div class="game-main">
       <div class="game-topbar">
         <div>
-          <div id="gName" class="game-title-txt">🪣 Argal Catch</div>
-          <div id="gDesc" class="game-desc">Үсэрхэг Үхэр сагсаараа унаж буй аргалыг тосно — 💣 бөмбөгнөөс зайл!</div>
+          <div id="gName" class="game-title-txt"> Argal Catch</div>
+          <div id="gDesc" class="game-desc">Үсэрхэг Үхэр арагаараа унаж буй аргалыг тосно — бөмбөгнөөс бултахаа мартуузай</div>
         </div>
         <div class="ctrl-row">
           <button id="startGameBtn"   class="btn-primary">▶ Start</button>
@@ -291,20 +291,20 @@
       </div>
 
       <div class="hs-panel">
-        <div class="hs-title">🏆 Дээд оноо</div>
-        <div class="hs-row"><span>🪣 Catch</span><span  id="hsCatch"  class="mono">0</span></div>
-        <div class="hs-row"><span>⚡ Dodge</span><span  id="hsDodge"  class="mono">0</span></div>
-        <div class="hs-row"><span>🎨 Paint</span><span  id="hsPaint"  class="mono">0</span></div>
-        <div class="hs-row"><span>🧠 Memory</span><span id="hsMemory" class="mono">0</span></div>
+        <div class="hs-title">Дээд оноо</div>
+        <div class="hs-row"><span>Catch</span><span  id="hsCatch"  class="mono">0</span></div>
+        <div class="hs-row"><span>Dodge</span><span  id="hsDodge"  class="mono">0</span></div>
+        <div class="hs-row"><span>Paint</span><span  id="hsPaint"  class="mono">0</span></div>
+        <div class="hs-row"><span>Memory</span><span id="hsMemory" class="mono">0</span></div>
       </div>
 
       <div class="howto-panel">
-        <div class="howto-title">Хэрхэн тоглох</div>
+        <div class="howto-title">Хэрхэн тоглох вэ гэж үү</div>
         <ul id="howtoList">
-          <li>Долоовор хурууг зүүн/баруун хөдөлгө</li>
-          <li>Унаж буй аргалыг сагсандаа барь → +1 оноо</li>
+          <li>Долоовор хурууг зүүн/баруун хөдөлгөнө</li>
+          <li>Унаж буй аргалыг аргандаа хийгээд → +1 оноо</li>
           <li>Том/онцгой аргал → +5 оноо</li>
-          <li>💣 бөмбөг амь хасна — сагсаар тос!</li>
+          <li>Бөмбөг амь хасна</li>
         </ul>
       </div>
     </div>
@@ -348,18 +348,18 @@ window.togDoor=togDoor;
 
 // ── Game tab switching ────────────────────────────────────────
 const gDesc={
-  catch:'Үсэрхэг Үхэр сагсаараа унаж буй аргалыг тосно — 💣 бөмбөгнөөс зайл!',
-  dodge:'Буудаж буй астероидоос зайл, 🛡 shield цуглуул',
-  paint:'2D гарын замаар зур, орбуудыг барь',
+  catch:'Үсэрхэг Үхэр арагаараа унаж буй аргалыг тосно — бөмбөгнөөс бултах аа мартуузай!',
+  dodge:'Буудаж буй астероидоос булт, хуяг цуглуул',
+  paint:'2D бөйдлаар зур, орбуудыг барь',
   memory:'Дарааллыг санаж, бүсийн хөдлөлөөр давт'
 };
 const gHints={
-  catch:['Долоовор хурууг зүүн/баруун хөдөлгө','Унаж буй аргалыг сагсандаа барь → +1 оноо','Том/онцгой аргал → +5 оноо','💣 бөмбөг амь хасна — сагсаар тос!'],
-  dodge:['Гарын X байрлалаар хөдөл','🛡 shield цуглуулж хамгаалла нэм','Цаг хэмжигч дуустал амьд үлд','Хурдлах тусам level нэмэгдэнэ'],
+  catch:['Долоовор хурууг зүүн/баруун хөдөлгө','Унаж буй аргалыг арагаараа тосоод → +1 оноо','Том/онцгой аргал → +5 оноо','Бөмбөг амь хасна'],
+  dodge:['Гарын X байрлалаар хөдөл','Хуяг цуглуулж хамгаалалт аа нэм','Цаг дуустал амьд үлд','Түвшин нэмэгдэх тусам хурд нэмэгдэнэ'],
   paint:['Хурууны X,Y байрлалаар зур','Гарч ирэх орбуудыг барь → оноо нэмэгдэнэ','Restart = canvas цэвэрлэнэ','Зурсан урт оноо болно'],
   memory:['Гарч ирэх бүсийн дарааллыг харна','Гараа тухайн бүсрүү хөдөлгөж давт','Зөв хийх бүрт дараалал урт болно','Алдвал амь хасагдана']
 };
-const gNames={catch:'🪣 Argal Catch',dodge:'⚡ Dodge',paint:'🎨 Paint',memory:'🧠 Memory'};
+const gNames={catch:'Argal Catch',dodge:'Dodge',paint:'Paint',memory:'Memory'};
 function selGame(n,btn){
   document.querySelectorAll('.gtab').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
