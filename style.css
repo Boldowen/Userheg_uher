@@ -100,7 +100,7 @@ body::before {
 /* ── LAYOUT ─────────────────────────────── */
 .container {
   position:relative; z-index:1;
-  width:min(1380px, calc(100% - 28px));
+  width:min(1600px, calc(100% - 28px));
   margin:0 auto; padding:28px 0 80px;
 }
 .page { display:none; }
@@ -278,16 +278,16 @@ body::before {
 .gtab:hover { border-color:var(--gold); color:var(--brown); }
 .gtab.active { background:linear-gradient(135deg,var(--brown2),var(--brown)); border-color:var(--brown); color:#fff; box-shadow:0 3px 10px rgba(100,50,10,.28); }
 
-.game-arena { display:grid; grid-template-columns:minmax(0, 1fr) 240px; gap:16px; align-items:start; }
-.game-main { background:var(--panel); border:2px solid var(--border); border-radius:var(--R); padding:16px; box-shadow:var(--shadow); }
+.game-arena { display:grid; grid-template-columns:1fr; gap:18px; align-items:start; }
+.game-main { background:var(--panel); border:2px solid var(--border); border-radius:var(--R); padding:18px; box-shadow:var(--shadow); }
 .game-topbar { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px; gap:12px; flex-wrap:wrap; }
 .game-title-txt { font-size:18px; font-weight:900; color:var(--brown); }
 .game-desc { font-size:12px; color:var(--muted); margin-top:3px; }
 
 .game-layout {
   display:grid;
-  grid-template-columns:minmax(340px, 38%) minmax(0, 1fr);
-  gap:16px;
+  grid-template-columns:minmax(420px, 40%) minmax(0, 1fr);
+  gap:18px;
   align-items:stretch;
 }
 #gameCanvas { width:100%; height:auto; border-radius:var(--Rs); background:#180e04; display:block; max-width:100%; }
@@ -295,7 +295,7 @@ body::before {
   position:relative;
   width:100%;
   aspect-ratio:4/3;
-  min-height:260px;
+  min-height:330px;
   align-self:stretch;
   border-radius:var(--Rs);
   overflow:hidden;
@@ -307,7 +307,7 @@ body::before {
 .cam-hud.sm .hc { border-color:var(--gold); }
 .cam-label { position:absolute; bottom:0; left:0; right:0; background:rgba(24,14,4,.82); padding:4px 6px; font-size:10px; font-weight:700; color:var(--gold2); text-align:center; letter-spacing:.04em; }
 
-.game-side { display:flex; flex-direction:column; gap:10px; }
+.game-side { display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:10px; align-items:start; }
 .score-panel { background:var(--panel); border:2px solid var(--border); border-radius:var(--Rs); padding:14px; box-shadow:var(--shadow); }
 .sc-item { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
 .sc-item:last-child { margin-bottom:0; }

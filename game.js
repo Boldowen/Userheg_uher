@@ -20,8 +20,10 @@ preloadImg('waving',     './images/duussan.png');
 for (let i = 1; i <= 7; i += 1) {
   preloadImg(`fallArgal${i}`, `./images/argal_${i}.png`);
 }
+preloadImg('dodgeCursor', './images/dodge.png');
+preloadImg('paintCursor', './images/paint.png');
 // expose for GameOver screen used by engine
-window._duussanImg = IMG.lose;
+window._duussanImg = IMG.duussan;
 
 /* ════════════════════════════════════════════════════════════
    GestureGameEngine — orchestrates all mini-games
@@ -566,7 +568,9 @@ class DodgeGame {
 
   reset() {
     this.score=0; this.lives=this.maxLives; this.level=1;
-    this.rocks=[]; this.px2=0.5; this.pR=18;
+    this.rocks=[]; this.px2=0.5;
+    this.pR=28;             // collision radius around the dodge cursor
+    this.cursorH=76;        // dodge.png visual height on canvas
     this.lastSpawn=0; this.elapsed=0; this.lastTs=0;
     this.inv=0; this.particles=[]; this.scoreTimer=0;
     this.shields=0; this.shieldTimer=0; this.trail=[];
@@ -636,10 +640,20 @@ class DodgeGame {
     if(!blink){
       ctx.save(); ctx.translate(px,py);
       if(this.shields>0){ ctx.beginPath(); ctx.arc(0,0,this.pR+8,0,Math.PI*2); ctx.strokeStyle='rgba(56,160,80,.45)'; ctx.lineWidth=2; ctx.setLineDash([4,4]); ctx.stroke(); ctx.setLineDash([]); }
-      ctx.beginPath(); ctx.moveTo(0,-this.pR); ctx.lineTo(this.pR*.7,this.pR*.55); ctx.lineTo(-this.pR*.7,this.pR*.55); ctx.closePath();
-      const g=ctx.createLinearGradient(0,-this.pR,0,this.pR); g.addColorStop(0,'#f0b030'); g.addColorStop(1,'#b05828');
-      ctx.fillStyle=g; ctx.shadowBlur=16; ctx.shadowColor='#c8880e'; ctx.fill(); ctx.shadowBlur=0;
-      ctx.beginPath(); ctx.arc(0,this.pR*.55,5,0,Math.PI*2); ctx.fillStyle='#c8880e'; ctx.shadowBlur=10; ctx.shadowColor='#f0b030'; ctx.fill(); ctx.shadowBlur=0;
+      const cursor = IMG.dodgeCursor;
+      if (cursor.complete && cursor.naturalWidth) {
+        const ih = this.cursorH;
+        const iw = ih * cursor.naturalWidth / cursor.naturalHeight;
+        ctx.shadowBlur = 16;
+        ctx.shadowColor = '#c8880e';
+        ctx.drawImage(cursor, -iw / 2, -ih / 2, iw, ih);
+        ctx.shadowBlur = 0;
+      } else {
+        ctx.beginPath(); ctx.moveTo(0,-this.pR); ctx.lineTo(this.pR*.7,this.pR*.55); ctx.lineTo(-this.pR*.7,this.pR*.55); ctx.closePath();
+        const g=ctx.createLinearGradient(0,-this.pR,0,this.pR); g.addColorStop(0,'#f0b030'); g.addColorStop(1,'#b05828');
+        ctx.fillStyle=g; ctx.shadowBlur=16; ctx.shadowColor='#c8880e'; ctx.fill(); ctx.shadowBlur=0;
+        ctx.beginPath(); ctx.arc(0,this.pR*.55,5,0,Math.PI*2); ctx.fillStyle='#c8880e'; ctx.shadowBlur=10; ctx.shadowColor='#f0b030'; ctx.fill(); ctx.shadowBlur=0;
+      }
       ctx.restore();
     }
     ctx.font='bold 13px monospace'; ctx.fillStyle='rgba(240,184,48,.7)';
@@ -658,10 +672,12 @@ class PaintGame {
     this.path=[]; this.orbs=[]; this.lastSpawn=0; this.totalLen=0;
     this.bgC=null; this.clearBg=true;
     this.lpx=null; this.lpy=null;
+    this.cursorH=62;
   }
   onPointerMove(x,y){
     const W=this.engine.W, H=this.engine.H;
-    const px=x*W, py=y*H;
+    // Paint mode-д камер/гарын X чиглэлийг reverse болгож зурна.
+    const px=(1-x)*W, py=y*H;
     if(this.lpx!==null){
       const d=Math.hypot(px-this.lpx,py-this.lpy);
       if(d>2){
@@ -712,8 +728,20 @@ class PaintGame {
       ctx.shadowBlur=10*age; ctx.shadowColor=`hsl(${b.hue},85%,65%)`; ctx.stroke(); ctx.shadowBlur=0;
     }
     const cx2=this.lpx||W/2, cy2=this.lpy||H/2;
-    ctx.beginPath(); ctx.arc(cx2,cy2,9,0,Math.PI*2);
-    ctx.fillStyle=`hsl(${this.hue},85%,65%)`; ctx.shadowBlur=16; ctx.shadowColor=`hsl(${this.hue},85%,60%)`; ctx.fill(); ctx.shadowBlur=0;
+    const paintCursor = IMG.paintCursor;
+    if (paintCursor.complete && paintCursor.naturalWidth) {
+      const ih = this.cursorH;
+      const iw = ih * paintCursor.naturalWidth / paintCursor.naturalHeight;
+      ctx.save();
+      ctx.translate(cx2, cy2);
+      ctx.shadowBlur = 16;
+      ctx.shadowColor = `hsl(${this.hue},85%,60%)`;
+      ctx.drawImage(paintCursor, -iw / 2, -ih / 2, iw, ih);
+      ctx.restore();
+    } else {
+      ctx.beginPath(); ctx.arc(cx2,cy2,9,0,Math.PI*2);
+      ctx.fillStyle=`hsl(${this.hue},85%,65%)`; ctx.shadowBlur=16; ctx.shadowColor=`hsl(${this.hue},85%,60%)`; ctx.fill(); ctx.shadowBlur=0;
+    }
     ctx.font='12px Nunito,sans-serif'; ctx.fillStyle='rgba(240,184,48,.33)';
     ctx.fillText('Орбуудыг барь · Restart = цэвэрлэнэ',14,H-12);
   }
